@@ -1,19 +1,25 @@
 #include "SimpleNeuralNetwork.h"
 
-SimpleNeuralNetwork::SimpleNeuralNetwork(const vector<int> &topology){
+double const SimpleNeuralNetwork::m_runningAverageSmoothFactor = 100.0;
+
+double SimpleNeuralNetwork::getRunningAverage(){
+	return m_runningAverage;
+}
+
+SimpleNeuralNetwork::SimpleNeuralNetwork(const std::vector<size_t> &topology){
 	size_t numLayers = topology.size();
 
 	for (size_t i = 0; i < numLayers; ++i){
 		m_layers.push_back(SimpleNeuronLayer());
 		size_t numOutput = (i == numLayers - 1) ? 0 : topology[i + 1];
-		for (unsigned j = 0; j <= topology[i]; ++j){
+		for (size_t j = 0; j <= topology[i]; ++j){
 			m_layers.back().push_back(SimpleNeuron(numOutput, j));
 		}
 		m_layers.back().back().setOutputVal(1.0);
 	}
 }
 
-void SimpleNeuralNetwork::feedForward(const vector<double> &inputVals){
+void SimpleNeuralNetwork::feedForward(const std::vector<double> &inputVals){
 	assert(inputVals.size() == m_layers[0].size() - 1);
 
 	for (size_t i = 0; i < inputVals.size(); ++i){
@@ -27,9 +33,9 @@ void SimpleNeuralNetwork::feedForward(const vector<double> &inputVals){
 	}
 }
 
-void SimpleNeuralNetwork::backPropogation(const vector<double> &targetVals){
+void SimpleNeuralNetwork::backPropogation(const std::vector<double> &targetVals){
 	// Calculate overall net error
-	SimpleNeuronLayer  &outputLayer = m_layers.back();
+	SimpleNeuronLayer &outputLayer = m_layers.back();
 	m_error = 0.0;
 	for (size_t n = 0; n < outputLayer.size() - 1; ++n){
 		double delta = targetVals[n] - outputLayer[n].getOutputVal();
@@ -57,17 +63,17 @@ void SimpleNeuralNetwork::backPropogation(const vector<double> &targetVals){
 	}
 
 	// Update weights for all layers
-	for (size_t layerNum = m_layers.size() - 1; layerNum >0; --layerNum){
+	for (size_t layerNum = m_layers.size() - 1; layerNum > 0; --layerNum){
 		SimpleNeuronLayer &layer = m_layers[layerNum];
-		SimpleNeuronLayer &nextLayer = m_layers[layerNum + 1];
+		SimpleNeuronLayer &prevLayer = m_layers[layerNum - 1];
 
-		for (size_t n = 0; n < layer.size(); ++n){
-			layer[n].updateInputWeights(nextLayer);
+		for (size_t n = 0; n < layer.size() - 1; ++n){
+			layer[n].updateInputWeights(prevLayer);
 		}
 	}
 }
 
-void SimpleNeuralNetwork::getResults(vector<double> &outputVals){
+void SimpleNeuralNetwork::getResults(std::vector<double> &outputVals){
 	outputVals.clear();
 	SimpleNeuronLayer &outputLayer = m_layers.back();
 

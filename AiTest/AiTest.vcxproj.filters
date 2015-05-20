@@ -18,17 +18,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleNeuron.cpp">
+    <ClCompile Include="SimpleNeuralNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleNeuralNetwork.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleNeuralNetwork.cpp">
+    <ClCompile Include="SimpleNeuron.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SimpleNeuralNetwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="SimpleNeuron.h">
       <Filter>Header Files</Filter>
     </ClInclude>

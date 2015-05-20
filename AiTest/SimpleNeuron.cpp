@@ -1,7 +1,7 @@
 #include "SimpleNeuron.h"
 
-double SimpleNeuron::eta = 0.15;
-double SimpleNeuron::alpha = 0.5;
+const double SimpleNeuron::eta = 0.15;
+const double SimpleNeuron::alpha = 0.5;
 
 SimpleNeuron::SimpleNeuron(size_t numOutputs, size_t index){
 	m_index = index;
@@ -14,7 +14,7 @@ void SimpleNeuron::setOutputVal(double value){
 	m_output = value;
 }
 
-double SimpleNeuron::getOutputVal(){
+double SimpleNeuron::getOutputVal() const{
 	return m_output;
 }
 
@@ -47,7 +47,7 @@ double SimpleNeuron::sumDow(const SimpleNeuronLayer &nextLayer) const{
 void SimpleNeuron::updateInputWeights(SimpleNeuronLayer &prevLayer){
 	for (auto &neuron : prevLayer){
 		double oldDeltaWeight = neuron.m_weights[m_index].deltaWeight;
-		double newDeltaWeight = eta * neuron.getOutputVal() * m_gradient + alpha * oldDeltaWeight;
+		double newDeltaWeight = eta * neuron.m_output * m_gradient + alpha * oldDeltaWeight;
 		neuron.m_weights[m_index].deltaWeight = newDeltaWeight;
 		neuron.m_weights[m_index].weight += newDeltaWeight;
 	}
@@ -55,10 +55,8 @@ void SimpleNeuron::updateInputWeights(SimpleNeuronLayer &prevLayer){
 
 void SimpleNeuron::feedForward(const SimpleNeuronLayer &prevLayer){
 	double sum = 0.0;
-
 	for (auto &neuron : prevLayer){
 		sum += neuron.m_output * neuron.m_weights[m_index].weight;
 	}
-
 	m_output = SimpleNeuron::transferFunction(sum);
 }

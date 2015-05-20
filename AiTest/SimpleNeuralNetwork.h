@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __SIMPLE_NEURAL_NETWORK_H__
 #define __SIMPLE_NEURAL_NETWORK_H__
 
@@ -5,16 +6,17 @@
 
 class SimpleNeuralNetwork{
 public:
-	SimpleNeuralNetwork(const vector<int> &topology);
-	void feedForward(const vector<double> &inputVals);
-	void backPropogation(const vector<double> &targetVals);
-	void getResults(vector<double> &outputVals);
+	SimpleNeuralNetwork(const std::vector<size_t> &topology);
+	void feedForward(const std::vector<double> &inputVals);
+	void backPropogation(const std::vector<double> &targetVals);
+	void getResults(std::vector<double> &outputVals);
+	double getRunningAverage();
+	static double const m_runningAverageSmoothFactor;
 
 private:
-	vector<SimpleNeuronLayer> m_layers;
+	std::vector<SimpleNeuronLayer> m_layers;
 	double m_error;
 	double m_runningAverage;
-	static double const m_runningAverageSmoothFactor;
 };
 
 #endif

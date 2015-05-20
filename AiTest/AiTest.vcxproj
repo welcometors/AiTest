@@ -81,10 +81,10 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimpleNeuralNetwork.cpp" />
-    <ClCompile Include="SimpleNeuralNetwork.h" />
     <ClCompile Include="SimpleNeuron.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SimpleNeuralNetwork.h" />
     <ClInclude Include="SimpleNeuron.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
